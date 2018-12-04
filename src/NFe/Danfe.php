@@ -1772,21 +1772,21 @@ class Danfe extends Common
                 $texto = '';
                 if ($nDup!='0' && $nDup!='') {
                     $aFont = array('font'=>$this->fontePadrao, 'size'=>6, 'style'=>'');
-                    $this->pTextBox($x, $y, $w, $h, 'Num.', $aFont, 'T', 'L', false, '');
+                    $this->pTextBox($x, $y, $w, $h, 'Num.', $aFont, 'T', 'L', 0, '');
                     $aFont = array('font'=>$this->fontePadrao, 'size'=>7, 'style'=>'B');
-                    $this->pTextBox($x, $y, $w, $h, $nDup, $aFont, 'T', 'R', false, '');
+                    $this->pTextBox($x, $y, $w, $h, $nDup, $aFont, 'T', 'R', 0, '');
                 } else {
                     $aFont = array('font'=>$this->fontePadrao, 'size'=>6, 'style'=>'');
-                    $this->pTextBox($x, $y, $w, $h, ($dupcont+1)."", $aFont, 'T', 'L', false, '');
+                    $this->pTextBox($x, $y, $w, $h, ($dupcont+1)."", $aFont, 'T', 'L', 0, '');
                 }
                 $aFont = array('font'=>$this->fontePadrao, 'size'=>6, 'style'=>'');
-                $this->pTextBox($x, $y, $w, $h, 'Venc.', $aFont, 'C', 'L', false, '');
+                $this->pTextBox($x, $y, $w, $h, 'Venc.', $aFont, 'C', 'L', 0, '');
                 $aFont = array('font'=>$this->fontePadrao, 'size'=>7, 'style'=>'B');
-                $this->pTextBox($x, $y, $w, $h, $dDup, $aFont, 'C', 'R', false, '');
+                $this->pTextBox($x, $y, $w, $h, $dDup, $aFont, 'C', 'R', 0, '');
                 $aFont = array('font'=>$this->fontePadrao, 'size'=>6, 'style'=>'');
-                $this->pTextBox($x, $y, $w, $h, 'Valor', $aFont, 'B', 'L', false, '');
+                $this->pTextBox($x, $y, $w, $h, 'Valor', $aFont, 'B', 'L', 0, '');
                 $aFont = array('font'=>$this->fontePadrao, 'size'=>7, 'style'=>'B');
-                $this->pTextBox($x, $y, $w, $h, $vDup, $aFont, 'B', 'R', false, '');
+                $this->pTextBox($x, $y, $w, $h, $vDup, $aFont, 'B', 'R', 0, '');
                 $x += $w+$increm;
                 $dupcont += 1;
                 if ($this->orientacao == 'P') {
