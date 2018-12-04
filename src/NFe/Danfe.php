@@ -80,11 +80,6 @@ class Danfe extends Common
      * @var boolean
      */
     public $descProdQuebraLinha = true;
-    /**
-     * Parâmetro do controle que determina a largura da box FATURA/DUPLICATA.
-     * @var integer|null
-     */
-    public $duplicataFaturamentoBoxWidth = null;
 
     //###########################################################
     //PROPRIEDADES DA CLASSE
@@ -1757,10 +1752,9 @@ class Danfe extends Common
             } else {
                 $w = 28;
             }
-            $wBox = $w;
-            if (!empty($this->duplicataFaturamentoBoxWidth)) {
-                $wBox = $this->duplicataFaturamentoBoxWidth;
-            }
+            $dups = count($this->dup);
+            $hBox = ($h * ceil($dups / 7)) + ((ceil($dups / 7) - 1) * 2);
+            $this->pTextBox($x, $y, 206, $hBox, '', $aFont, 'C', 'L', 1, '');
             $increm = 1;
             foreach ($this->dup as $k => $d) {
                 $nDup = ! empty($this->dup->item($k)->getElementsByTagName('nDup')->item(0)->nodeValue) ?
@@ -1778,21 +1772,21 @@ class Danfe extends Common
                 $texto = '';
                 if ($nDup!='0' && $nDup!='') {
                     $aFont = array('font'=>$this->fontePadrao, 'size'=>6, 'style'=>'');
-                    $this->pTextBox($x, $y, $wBox, $h, 'Num.', $aFont, 'T', 'L', 1, '');
+                    $this->pTextBox($x, $y, $w, $h, 'Num.', $aFont, 'T', 'L', false, '');
                     $aFont = array('font'=>$this->fontePadrao, 'size'=>7, 'style'=>'B');
-                    $this->pTextBox($x, $y, $w, $h, $nDup, $aFont, 'T', 'R', 0, '');
+                    $this->pTextBox($x, $y, $w, $h, $nDup, $aFont, 'T', 'R', false, '');
                 } else {
                     $aFont = array('font'=>$this->fontePadrao, 'size'=>6, 'style'=>'');
-                    $this->pTextBox($x, $y, $w, $h, ($dupcont+1)."", $aFont, 'T', 'L', 1, '');
+                    $this->pTextBox($x, $y, $w, $h, ($dupcont+1)."", $aFont, 'T', 'L', false, '');
                 }
                 $aFont = array('font'=>$this->fontePadrao, 'size'=>6, 'style'=>'');
-                $this->pTextBox($x, $y, $wBox, $h, 'Venc.', $aFont, 'C', 'L', 0, '');
+                $this->pTextBox($x, $y, $w, $h, 'Venc.', $aFont, 'C', 'L', false, '');
                 $aFont = array('font'=>$this->fontePadrao, 'size'=>7, 'style'=>'B');
-                $this->pTextBox($x, $y, $w, $h, $dDup, $aFont, 'C', 'R', 0, '');
+                $this->pTextBox($x, $y, $w, $h, $dDup, $aFont, 'C', 'R', false, '');
                 $aFont = array('font'=>$this->fontePadrao, 'size'=>6, 'style'=>'');
-                $this->pTextBox($x, $y, $wBox, $h, 'Valor', $aFont, 'B', 'L', 0, '');
+                $this->pTextBox($x, $y, $w, $h, 'Valor', $aFont, 'B', 'L', false, '');
                 $aFont = array('font'=>$this->fontePadrao, 'size'=>7, 'style'=>'B');
-                $this->pTextBox($x, $y, $w, $h, $vDup, $aFont, 'B', 'R', 0, '');
+                $this->pTextBox($x, $y, $w, $h, $vDup, $aFont, 'B', 'R', false, '');
                 $x += $w+$increm;
                 $dupcont += 1;
                 if ($this->orientacao == 'P') {
