@@ -244,7 +244,7 @@ class DacteV3 extends Common
             $this->tpImp = $this->getTagValue($this->ide, "tpImp");
             $this->tpAmb = $this->getTagValue($this->ide, "tpAmb");
             $this->tpCTe = $this->getTagValue($this->ide, "tpCTe");
-            $this->qrCodMDFe = $this->dom->getElementsByTagName('qrCodCTe')->item(0) ?
+            $this->qrCodCTe = $this->dom->getElementsByTagName('qrCodCTe')->item(0) ?
                 $this->dom->getElementsByTagName('qrCodCTe')->item(0)->nodeValue : null;
             $this->protCTe = $this->dom->getElementsByTagName("protCTe")->item(0);
             //01-Rodoviário; //02-Aéreo; //03-Aquaviário; //04-Ferroviário;//05-Dutoviário
