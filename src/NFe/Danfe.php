@@ -751,7 +751,9 @@ class Danfe extends Common
         $y = $this->pTransporteDANFE($x, $y+1);
         //itens da DANFE
         $nInicial = 0;
+
         $y = $this->pItensDANFE($x, $y+1, $nInicial, $hDispo1, $pag, $totPag, $hCabecItens);
+
         //coloca os dados do ISSQN
         if ($linhaISSQN == 1) {
             $y = $this->pIssqnDANFE($x, $y+4);
@@ -766,6 +768,7 @@ class Danfe extends Common
         } else {
             $this->pRodape($xInic, $this->hPrint + 1);
         }
+
         //loop para páginas seguintes
         for ($n = 2; $n <= $totPag; $n++) {
             // fixa as margens
@@ -2362,6 +2365,9 @@ class Danfe extends Common
             $impostos .= $this->pDescricaoProdutoHelper($ICMS, "vBCFCPST", " BcFcpSt=%s");
             $impostos .= $this->pDescricaoProdutoHelper($ICMS, "pFCPST", " pFcpSt=%s%%");
             $impostos .= $this->pDescricaoProdutoHelper($ICMS, "vFCPST", " vFcpSt=%s");
+            $impostos .= $this->pDescricaoProdutoHelper($ICMS, "vBCSTRet", " vBcStRet=%s");
+            $impostos .= $this->pDescricaoProdutoHelper($ICMS, "pST", " pSt=%s");
+            $impostos .= $this->pDescricaoProdutoHelper($ICMS, "vICMSSTRet", " vIcmsStRet=%s");
         }
         if (!empty($ICMSUFDest)) {
             $impostos .= $this->pDescricaoProdutoHelper($ICMSUFDest, "pFCPUFDest", " pFCPUFDest=%s%%");
@@ -2562,12 +2568,16 @@ class Danfe extends Common
                 $imposto = $this->det->item($i)->getElementsByTagName("imposto")->item(0);
                 $ICMS = $imposto->getElementsByTagName("ICMS")->item(0);
                 $IPI  = $imposto->getElementsByTagName("IPI")->item(0);
-                $textoProduto = $this->pDescricaoProduto($thisItem);
+                $textoProduto = trim($this->pDescricaoProduto($thisItem));
+
                 $linhaDescr = $this->pGetNumLines($textoProduto, $w2, $aFont);
                 $h = round(($linhaDescr * $this->pdf->fontSize)+ ($linhaDescr * 0.5), 2);
                 $hUsado += $h;
+
+                $diffH = $hmax - $hUsado;
+
                 if ($pag != $totpag) {
-                    if ($hUsado >= $hmax && $i < $totItens) {
+                    if (1 > $diffH && $i < $totItens) {
                         //ultrapassa a capacidade para uma única página
                         //o restante dos dados serão usados nas proximas paginas
                         $nInicio = $i;
