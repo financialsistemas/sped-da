@@ -94,7 +94,8 @@ class DacteV3 extends Common
     protected $totPag;
     protected $idDocAntEle = [];
     protected $qrCodCTe;
-    protected $margemInterna = 2;
+    protected $margemInterna = 0;
+    protected $formatoChave = "#### #### #### #### #### #### #### #### #### #### ####";
 
     /**
      * __construct
@@ -251,7 +252,7 @@ class DacteV3 extends Common
             $this->modal = $this->getTagValue($this->ide, "modal");
         }
     }
-    
+
     /**
      * monta
      * @param string $orientacao L ou P
@@ -268,7 +269,7 @@ class DacteV3 extends Common
     ) {
         return $this->montaDACTE($orientacao, $papel, $logoAlign, $classPDF);
     }
-    
+
     /**
      * printDocument
      * @param string $nome
@@ -280,7 +281,7 @@ class DacteV3 extends Common
     {
         return $this->printDACTE($nome, $destino, $printer);
     }
-    
+
     /**
      * Dados brutos do PDF
      * @return string
@@ -293,7 +294,7 @@ class DacteV3 extends Common
     {
         return $this->situacao_externa == self::SIT_DPEC && $this->numero_registro_dpec != '';
     }
-    
+
     /**
      * montaDACTE
      * Esta função monta a DACTE conforme as informações fornecidas para a classe
@@ -510,7 +511,7 @@ class DacteV3 extends Common
             return str_replace('CTe', '', $this->infCte->getAttribute("Id"));
         }
     }
-    
+
     /**
      * printDACTE
      * Esta função envia a DACTE em PDF criada para o dispositivo informado.
@@ -536,7 +537,7 @@ class DacteV3 extends Common
         }
         return $arq;
     }
-    
+
     /**
      * zCabecalho
      * Monta o cabelhalho da DACTE ( retrato e paisagem )
@@ -764,31 +765,31 @@ class DacteV3 extends Common
         $w = round($maxW * 0.212);
         $w1 = $w;
         $h = 11;
-        $this->pTextBox($x, $y, $w + 2, $h + 1);
+        $this->pTextBox($x, $y, $w + 48.5, $h + 1);
         $texto = "DACTE";
         $aFont = array(
             'font' => $this->fontePadrao,
             'size' => 10,
             'style' => 'B');
-        $this->pTextBox($x, $y, $w, $h, $texto, $aFont, 'T', 'C', 0, '');
+        $this->pTextBox($x + 25, $y + 2, $w, $h, $texto, $aFont, 'T', 'C', 0, '');
         $aFont = array(
             'font' => $this->fontePadrao,
-            'size' => 8,
+            'size' => 9,
             'style' => '');
-        $texto = "Documento Auxiliar do Conhecimento de\nTransporte Eletrônico";
+        $texto = "Documento Auxiliar do Conhecimento de Transporte Eletrônico";
         $h = 10;
-        $this->pTextBox($x, $y + 3, $w, $h, $texto, $aFont, 'T', 'C', 0, '', false);
+        $this->pTextBox($x + 5, $y + 6, $w + 40, $h, $texto, $aFont, 'T', 'C', 0, '', false);
         $x1 = $x + $w + 2;
-        $w = round($maxW * 0.212, 0);
+        $w = round($maxW * 0.22, 0);
         $w2 = $w;
         $h = 11;
-        $this->pTextBox($x1, $y, $w + 0.5, $h + 1);
+        $this->pTextBox($x1 + 46.5, $y, $w - 0.5, $h + 1);
         $texto = "MODAL";
         $aFont = array(
             'font' => $this->fontePadrao,
             'size' => 8,
             'style' => '');
-        $this->pTextBox($x1, $y + 1, $w, $h, $texto, $aFont, 'T', 'C', 0, '');
+        $this->pTextBox($x1 + 47, $y + 1, $w, $h, $texto, $aFont, 'T', 'C', 0, '');
         switch ($this->modal) {
             case '1':
                 $texto = 'Rodoviário';
@@ -810,7 +811,7 @@ class DacteV3 extends Common
             'font' => $this->fontePadrao,
             'size' => 10,
             'style' => 'B');
-        $this->pTextBox($x1, $y + 5, $w, $h, $texto, $aFont, 'T', 'C', 0, '');
+        $this->pTextBox($x1 + 47, $y + 5, $w, $h, $texto, $aFont, 'T', 'C', 0, '');
         //outra caixa
         $y += 12;
         $h = 9;
@@ -912,14 +913,14 @@ class DacteV3 extends Common
         $aFont = $this->formatPadrao;
         $this->pTextBox($x, $y + $h1, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
         $aFont = $this->formatNegrito;
-        $texto = $this->pFormat($chave_acesso, '##.####.##.###.###/####-##-##-###-###.###.###-###.###.###-#');
+        $texto = $this->pFormat($chave_acesso, $this->formatoChave);
         $this->pTextBox($x, $y + $h1 + 3, $w, $h, $texto, $aFont, 'T', 'C', 0, '');
         $this->pTextBox($x, $y + $h1 + 8, $w + 0.5, $h1 - 4.5);
         $texto = "Consulta em http://www.cte.fazenda.gov.br/portal";
         if ($this->tpEmis == 5 || $this->tpEmis == 7 || $this->tpEmis == 8) {
             $texto = "";
             $this->pdf->SetFillColor(0, 0, 0);
-            if ($this->tpEmis == 5) {
+            if ($this->tpEmis == 5 || $this->tpEmis == 7) {
                 $chaveContingencia = $this->zGeraChaveAdicCont();
                 $this->pdf->Code128($x + 20, $y1 + 10, $chaveContingencia, $bW * .9, $bH / 2);
             } else {
@@ -972,7 +973,10 @@ class DacteV3 extends Common
         $aFont = $this->formatNegrito;
         $this->pTextBox($x, $y + 12, $wa, $h, $texto, $aFont, 'T', 'C', 0, '');
         if ($this->qrCodCTe !== null) {
-            $this->pQRDACTE($y-32);
+            $this->pQRDACTE($y-27);
+            $w = 45;
+            $x += 92.5;
+            $this->pTextBox($x, $y - 34, $w + 0.5, $h + 41.5);
         }
         //CFOP
         $x = $oldX;
@@ -1186,7 +1190,7 @@ class DacteV3 extends Common
         }
         return $oldY;
     }
-    
+
     /**
      * rodapeDACTE
      * Monta o rodape no final da DACTE ( retrato e paisagem )
@@ -1210,7 +1214,7 @@ class DacteV3 extends Common
             'style' => '');
         $this->pTextBox($x, $y, $w, 4, $texto, $aFont, 'T', 'R', 0, $this->siteDesenvolvedor);
     }
-    
+
     /**
      * zRemetente
      * Monta o campo com os dados do remetente na DACTE. ( retrato  e paisagem  )
@@ -1298,7 +1302,7 @@ class DacteV3 extends Common
         $aFont = $this->formatNegrito;
         $this->pTextBox($x + 8, $y, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
     }
-    
+
     /**
      * zDestinatario
      * Monta o campo com os dados do destinatário na DACTE.
@@ -1385,7 +1389,7 @@ class DacteV3 extends Common
         $aFont = $this->formatNegrito;
         $this->pTextBox($x + 8, $y, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
     }
-    
+
     /**
      * zExpedidor
      * Monta o campo com os dados do remetente na DACTE. ( retrato  e paisagem  )
@@ -1482,7 +1486,7 @@ class DacteV3 extends Common
             $this->pTextBox($x + 8, $y, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
         }
     }
-    
+
     /**
      * zRecebedor
      * Monta o campo com os dados do remetente na DACTE. ( retrato  e paisagem  )
@@ -1579,7 +1583,7 @@ class DacteV3 extends Common
             $this->pTextBox($x + 8, $y, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
         }
     }
-    
+
     /**
      * zTomador
      * Monta o campo com os dados do remetente na DACTE. ( retrato  e paisagem  )
@@ -1668,7 +1672,7 @@ class DacteV3 extends Common
         $aFont = $this->formatNegrito;
         $this->pTextBox($x + 8, $y, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
     }
-    
+
     /**
      * zDescricaoCarga
      * Monta o campo com os dados do remetente na DACTE. ( retrato  e paisagem  )
@@ -1843,7 +1847,7 @@ class DacteV3 extends Common
             'style' => 'B');
         $this->pTextBox($x, $y + 3, $w, $h, $texto, $aFont, 'T', 'L', 0, '');*/
     }
-    
+
     /**
      * zCompValorServ
      * Monta o campo com os componentes da prestação de serviços.
@@ -1942,7 +1946,7 @@ class DacteV3 extends Common
             $auxX += $w * 0.14;
         }
     }
-    
+
     /**
      * zImpostos
      * Monta o campo com os dados do remetente na DACTE. ( retrato  e paisagem  )
@@ -2119,7 +2123,7 @@ class DacteV3 extends Common
         $aFont = $this->formatNegrito;
         $this->pTextBox($x, $y, $w * 0.14, $h, $texto, $aFont, 'T', 'L', 0, '');*/
     }
-    
+
     /**
      * zGeraChaveAdicCont
      *
@@ -2160,7 +2164,7 @@ class DacteV3 extends Common
         $chave = $chave . $this->pModulo11($chave);
         return $chave;
     }
-    
+
     /**
      * zDocOrig
      * Monta o campo com os documentos originarios.
@@ -2424,7 +2428,7 @@ class DacteV3 extends Common
             $auxX += $w * 0.14;
         }
     }
-    
+
     /**
      * zDocOrigContinuacao
      * Monta o campo com os documentos originarios.
@@ -2545,7 +2549,7 @@ class DacteV3 extends Common
             }
         }
     }
-    
+
     /**
      * zDocCompl
      * Monta o campo com os dados do remetente na DACTE.
@@ -2614,7 +2618,7 @@ class DacteV3 extends Common
             'style' => '');
         $this->pTextBox($w * 0.40, $yIniDados, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
     }
-    
+
     /**
      * zObs
      * Monta o campo com os dados do remetente na DACTE.
@@ -2657,7 +2661,7 @@ class DacteV3 extends Common
         $this->pTextBox($x, $y, $w, $h, $textoObs[0], $aFont, 'T', 'L', 0, '', false);
         $this->pTextBox($x, $y+11.5, $w, $h, $textoObs[1], $aFont, 'T', 'L', 0, '', false);
     }
-    
+
     /**
      * zModalRod
      * Monta o campo com os dados do remetente na DACTE. ( retrato  e paisagem  )
@@ -2698,7 +2702,7 @@ class DacteV3 extends Common
         $aFont = $this->formatPadrao;
         $this->pTextBox($x-20, $y + 3, $w * 0.50, $h, $texto, $aFont, 'T', 'C', 0, '');
     }
-    
+
     /**
      * zModalAereo
      * Monta o campo com os dados do remetente na DACTE. ( retrato  e paisagem  )
@@ -2755,7 +2759,7 @@ class DacteV3 extends Common
         $aFont = $this->formatNegrito;
         $this->pTextBox($x, $y + 3, $w * 0.23, $h, $texto, $aFont, 'T', 'L', 0, '');
     }
-    
+
     /**
      * zModalAquaviario
      * Monta o campo com os dados do remetente na DACTE. ( retrato  e paisagem  )
@@ -2925,7 +2929,7 @@ class DacteV3 extends Common
         $aFont = $this->formatNegrito;
         $this->pTextBox($x, $y + 3, $w * 0.50, $h, $texto, $aFont, 'T', 'L', 0, '');
     }
-    
+
     /**
      * zModalFerr
      * Monta o campo com os dados do remetente na DACTE. ( retrato  e paisagem  )
@@ -3203,7 +3207,7 @@ class DacteV3 extends Common
             'style' => 'B');
         $this->pTextBox($x, $y + 9, $w, $h, $texto, $aFont, 'T', 'L', 0, '');
     }
-    
+
     /**
      * zCanhoto
      * Monta o campo com os dados do remetente na DACTE.
@@ -3279,7 +3283,7 @@ class DacteV3 extends Common
         $x = $oldX;
         $this->zhDashedLine($x, $y + 12.7, $this->wPrint, 0.1, 80);
     }
-    
+
     /**
      * zDadosAdic
      * Coloca o grupo de dados adicionais da DACTE.
@@ -3361,7 +3365,7 @@ class DacteV3 extends Common
         $this->pTextBox($x, $y + 2, $w - 2, $h - 3, $texto, $aFont, 'T', 'L', 0, '', false);
         return $y + $h;
     }
-    
+
     /**
      * zhDashedLine
      * Desenha uma linha horizontal tracejada com o FPDF
@@ -3385,7 +3389,7 @@ class DacteV3 extends Common
             }
         }
     }
-    
+
     /**
      * zhDashedVerticalLine
      * Desenha uma linha vertical tracejada com o FPDF
@@ -3412,7 +3416,7 @@ class DacteV3 extends Common
             $n--;
         }
     }
-    
+
     /**
      * zFormatCNPJCPF
      * Formata campo CnpjCpf contida na CTe
@@ -3435,7 +3439,7 @@ class DacteV3 extends Common
         }
         return $cnpj;
     }
-    
+
     /**
      * zFormatFone
      * Formata campo fone contida na CTe
@@ -3461,7 +3465,7 @@ class DacteV3 extends Common
             return '';
         }
     }
-    
+
     /**
      * zUnidade
      * Converte a imformação de peso contida na CTe
@@ -3495,7 +3499,7 @@ class DacteV3 extends Common
         }
         return $r;
     }
-    
+
     /**
      * zConvertUnidTrafego
      * Converte a imformação de peso contida na CTe
@@ -3523,7 +3527,7 @@ class DacteV3 extends Common
             return $stringU;
         }
     }
-    
+
     /**
      * zMultiUniPeso
      * Fornece a imformação multiplicação de peso contida na CTe
@@ -3554,16 +3558,16 @@ class DacteV3 extends Common
             array(-2, -2, -2, -2)
         )->setBackgroundColor('white');
         $qrcode = $bobj->getPngData();
-        $wQr = 30;
-        $hQr = 30;
+        $wQr = 36;
+        $hQr = 36;
         $yQr = ($y + $margemInterna);
         if ($this->orientacao == 'P') {
-			$xQr = 170;
-		} else {
-			$xQr = 245;
-		}
+            $xQr = 170;
+        } else {
+            $xQr = 250;
+        }
         // prepare a base64 encoded "data url"
         $pic = 'data://text/plain;base64,' . base64_encode($qrcode);
-        $this->pdf->image($pic, $xQr, $yQr, $wQr, $hQr, 'PNG');
+        $this->pdf->image($pic, $xQr - 3, $yQr, $wQr, $hQr, 'PNG');
     }
 }
