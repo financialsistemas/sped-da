@@ -920,14 +920,13 @@ class DacteV3 extends Common
         if ($this->tpEmis == 5 || $this->tpEmis == 7 || $this->tpEmis == 8) {
             $texto = "";
             $this->pdf->SetFillColor(0, 0, 0);
-            if ($this->tpEmis == 5 || $this->tpEmis == 7) {
+            if ($this->tpEmis == 5) {
                 $chaveContingencia = $this->zGeraChaveAdicCont();
                 $this->pdf->Code128($x + 20, $y1 + 10, $chaveContingencia, $bW * .9, $bH / 2);
-            } else {
+            } elseif (!empty($this->protCTe)) {
                 $chaveContingencia = $this->getTagValue($this->protCTe, "nProt");
                 $this->pdf->Code128($x + 40, $y1 + 10, $chaveContingencia, $bW * .4, $bH / 2);
             }
-            //codigo de barras
         }
         $aFont = array(
             'font' => $this->fontePadrao,
@@ -2157,7 +2156,7 @@ class DacteV3 extends Common
                 $ICMSs = '1';
                 break;
         }
-        $dd = $this->ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
+        $dd = $this->ide->getElementsByTagName('dEmi')->item(0)->nodeValue;
         $rpos = strrpos($dd, '-');
         $dd = substr($dd, $rpos + 1);
         $chave = sprintf($forma, $cUF, $this->tpEmis, $CNPJ, $vCT, $ICMSp, $ICMSs, $dd);
