@@ -36,34 +36,34 @@ class Danfe extends Common
      * Define a exbição dos valores de PIS e Cofins
      * @var bool
      */
-    protected $exibirPIS = true;
+    public $exibirPIS = true;
     /**
      * Parâmetro para exibir ou ocultar os valores do ICMS Interestadual e Valor Total dos Impostos.
      * @var boolean
      */
-    protected $exibirIcmsInterestadual = true;
+    public $exibirIcmsInterestadual = true;
     /**
      * Parâmetro para exibir ou ocultar o texto sobre valor aproximado dos tributos.
      * @var boolean
      */
-    protected $exibirValorTributos = true;
+    public $exibirValorTributos = true;
     /**
      * Parâmetro para exibir ou ocultar o texto adicional sobre a forma de pagamento
      * e as informações de fatura/duplicata.
      * @var boolean
      */
-    protected $exibirTextoFatura = false;
+    public $exibirTextoFatura = false;
     /**
      * Parâmetro do controle se deve concatenar automaticamente informações complementares
      * na descrição do produto, como por exemplo, informações sobre impostos.
      * @var boolean
      */
-    protected $descProdInfoComplemento = true;
+    public $descProdInfoComplemento = true;
     /**
      * Parâmetro do controle se deve gerar quebras de linha com "\n" a partir de ";" na descrição do produto.
      * @var boolean
      */
-    protected $descProdQuebraLinha = true;
+    public $descProdQuebraLinha = true;
     /**
      * objeto fpdf()
      * @var \NFePHP\DA\Legacy\Pdf
