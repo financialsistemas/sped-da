@@ -1681,7 +1681,7 @@ class Danfe extends Common
             }
             $dups = count($this->dup);
             $hBox = ($h * ceil($dups / 7)) + ((ceil($dups / 7) - 1) * 2);
-            $this->pTextBox($x, $y, 206, $hBox, '', $aFont, 'C', 'L', 1, '');
+            $this->pdf->textBox($x, $y, 206, $hBox, '', $aFont, 'C', 'L', 1, '');
             $increm = 1;
             foreach ($this->dup as $k => $d) {
                 $nDup = ! empty($this->dup->item($k)->getElementsByTagName('nDup')->item(0)->nodeValue)
