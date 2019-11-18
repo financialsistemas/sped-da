@@ -343,10 +343,11 @@ class Danfce extends Common
         $maxW = $this->wPrint;
         $h = $h-($margemInterna);
         //COLOCA LOGOMARCA
-        if (is_file($this->logomarca)) {
+        if (!empty($this->logomarca)) {
             $xImg = $margemInterna;
             $yImg = $margemInterna + 1;
-            $this->pdf->image($this->logomarca, $xImg, $yImg, 30, 22.5);
+            $type = (substr($this->logomarca, 0, 7) === 'data://') ? 'jpg' : null;
+            $this->pdf->image($this->logomarca, $xImg, $yImg, 30, 22.5, $type);
             $xRs = ($maxW*0.4) + $margemInterna;
             $wRs = ($maxW*0.6);
             $alignEmit = 'L';
@@ -869,8 +870,10 @@ class Danfce extends Common
         $aFontTex = ['font' => $this->fontePadrao, 'size' => 8, 'style' => ''];
         // seta o textbox do titulo
         $texto = "INFORMAÇÃO ADICIONAL";
-        $heigthText = $this->pdf->textBox($x, $y, $w, $hLinha, $texto, $aFontTit, 'C', 'C', 0, '', false);
-                
+        if ($this->nfeProc->getElementsByTagName("xMsg")) {
+            $texto = $texto . ' ' . $this->nfeProc->getElementsByTagName("xMsg")->item(0)->nodeValue;
+        }
+        $heigthText = $this->pTextBox($x, $y, $w, $hLinha, $texto, $aFontTit, 'C', 'C', 0, '', false);
         // seta o textbox do texto adicional
         $this->pdf->textBox($x, $y+3, $w-2, $hLinha-3, $this->textoAdic, $aFontTex, 'T', 'L', 0, '', false);
     }
