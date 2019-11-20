@@ -24,7 +24,7 @@ class Dacanc extends Common
 {
     protected $logoAlign = 'C';
     protected $yDados = 0;
-    protected $debugMode = 0;
+    protected $debugmode = 0;
     protected $aEnd = array();
     protected $pdf;
     protected $xml;
@@ -55,7 +55,7 @@ class Dacanc extends Common
     private $dom;
     private $infCanc;
     private $retCancCte;
-    
+
    /**
     *__construct
     * @param string $docXML Arquivo XML da cce
@@ -80,9 +80,9 @@ class Dacanc extends Common
         $mododebug = 0
     ) {
         if (is_numeric($mododebug)) {
-            $this->debugMode = $mododebug;
+            $this->debugmode = $mododebug;
         }
-        if ($this->debugMode) {
+        if ($this->debugmode) {
             //ativar modo debug
             error_reporting(E_ALL);
             ini_set('display_errors', 'On');
@@ -136,7 +136,7 @@ class Dacanc extends Common
         $this->dhRegEvento = $this->retCancCTe->getElementsByTagName("dhRecbto")->item(0)->nodeValue;
         $this->nProt = $this->retCancCTe->getElementsByTagName("nProt")->item(0)->nodeValue;
     }
-    
+
     /**
      * monta
      * @param type $orientacao
@@ -148,7 +148,7 @@ class Dacanc extends Common
     {
         return $this->montaDaCanccte($orientacao, $papel, $logoAlign, $classPDF);
     }
-    
+
     /**
      * printDocument
      * @param type $nome
@@ -160,7 +160,7 @@ class Dacanc extends Common
     {
         return $this->printDaCanccte($nome, $destino, $printer);
     }
-    
+
     /**
      * montaDACCE
      * Esta função monta a DACCE conforme as informações fornecidas para a classe
@@ -241,7 +241,7 @@ class Dacanc extends Common
             return $this->id;
         }
     }
-    
+
     /**
      * header
      * @param type $x
@@ -416,7 +416,7 @@ class Dacanc extends Common
         }
         return $retVal;
     }
-    
+
     /**
      * body
      * @param int $x
@@ -434,7 +434,7 @@ class Dacanc extends Common
         $aFont = array('font'=>$this->fontePadrao,'size'=>12,'style'=>'B');
         $this->pdf->textBox($x+2, $y+2, $maxW-2, 150, $texto, $aFont, 'T', 'L', 0, '', false);
     }
-    
+
     /**
      * footer
      * @param type $x
@@ -462,7 +462,7 @@ class Dacanc extends Common
         $aFont = array('font'=>$this->fontePadrao,'size'=>6,'style'=>'I');
         $this->pdf->textBox($x, $y, $w, 4, $texto, $aFont, 'T', 'R', 0, 'http://www.nfephp.org');
     }
-    
+
     /**
      * print
      * @param type $nome

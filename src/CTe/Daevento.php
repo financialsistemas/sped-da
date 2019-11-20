@@ -26,7 +26,7 @@ class Daevento extends Common
 
     protected $logoAlign = 'C';
     protected $yDados = 0;
-    protected $debugMode = 0;
+    protected $debugmode = 0;
     protected $dadosEmitente = array();
     protected $pdf;
     protected $xml;
