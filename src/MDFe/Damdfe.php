@@ -531,6 +531,7 @@ class Damdfe extends Common
             }
             $this->pdf->setTextColor(0, 0, 0);
         }
+
         return $y + 8;
     }
 
@@ -1205,7 +1206,7 @@ class Damdfe extends Common
         }
         return $this->pdf->getPdf();
     }
-    
+
     /**
      * Add the credits to the integrator in the footer message
      *
