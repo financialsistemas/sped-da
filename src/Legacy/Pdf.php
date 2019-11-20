@@ -2,11 +2,10 @@
 
 namespace NFePHP\DA\Legacy;
 
-use NFePHP\DA\Legacy\FPDF\Fpdf;
+use NFePHP\DA\Legacy\FPDF\Fpdf as Fpdf;
 
 class Pdf extends Fpdf
 {
-    
     private $t128;                                             // tabela de codigos 128
     private $abcSet="";                                        // conjunto de caracteres legiveis em 128
     private $aSet="";                                          // grupo A do conjunto de de caracteres legiveis
@@ -14,8 +13,8 @@ class Pdf extends Fpdf
     private $cSet="";                                          // grupo C do conjunto de caracteres legiveis
     private $setFrom;                                          // converter de
     private $setTo;                                            // converter para
-    private $jStart = array("A"=>103, "B"=>104, "C"=>105);     // Caracteres de seleção do grupo 128
-    private $jSwap = array("A"=>101, "B"=>100, "C"=>99);       // Caracteres de troca de grupo
+    private $jStart = ["A"=>103, "B"=>104, "C"=>105];     // Caracteres de seleção do grupo 128
+    private $jSwap = ["A"=>101, "B"=>100, "C"=>99];       // Caracteres de troca de grupo
 
     public function __construct($orientation = 'P', $unit = 'mm', $format = 'A4')
     {
@@ -162,7 +161,6 @@ class Pdf extends Fpdf
     }
 
     /**
-     * Code128
      * Imprime barcode 128
      */
     public function code128($x, $y, $code, $w, $h)
@@ -194,8 +192,7 @@ class Pdf extends Fpdf
                 if (fmod($made, 2)==1) {
                     $made--;
                 }
-                for ($i=0; $i < $made;
-                $i += 2) {
+                for ($i=0; $i < $made; $i += 2) {
                     $crypt .= chr(strval(substr($code, $i, 2)));
                 }
                     $jeu = "C";
@@ -237,7 +234,6 @@ class Pdf extends Fpdf
     }
 
     /**
-     * rotate
      * Rotaciona para impressão paisagem (landscape)
      * @param   number $angle
      * @param   number $x
@@ -278,7 +274,6 @@ class Pdf extends Fpdf
     }
 
     /**
-     * roundedRect
      * Desenha um retangulo com cantos arredondados
      * @param   number $x
      * @param   number $y
@@ -338,7 +333,6 @@ class Pdf extends Fpdf
     }
     
     /**
-     * arc
      * Desenha o arco para arredondar o canto do retangulo
      * @param   number $x1
      * @param   number $y1
@@ -364,7 +358,6 @@ class Pdf extends Fpdf
     }
     
     /**
-     * dashedRect
      * Desenha um retangulo com linhas tracejadas
      * @param   number $x1
      * @param   number $y1
@@ -399,10 +392,9 @@ class Pdf extends Fpdf
                 }
             }
         }
-    }//fim DashedRect
+    }
 
     /**
-     * drawTextBox
      * Monta uma caixa de texto
      * @param   string  $strText
      * @param   number  $w
@@ -435,7 +427,6 @@ class Pdf extends Fpdf
     }
     
     /**
-     * _drawRows
      * Insere linhas de texto na caixa
      * @param   number  $w
      * @param   number  $h
@@ -572,7 +563,6 @@ class Pdf extends Fpdf
     }
     
     /**
-     * WordWrap
      * Quebra o texto para caber na caixa
      * @param   type $text
      * @param   type $maxwidth
@@ -623,7 +613,6 @@ class Pdf extends Fpdf
     }
     
     /**
-     * CellFit
      * Celula com escala horizontal caso o texto seja muito largo
      * @param   number  $w
      * @param   number  $h
@@ -678,7 +667,6 @@ class Pdf extends Fpdf
     }
 
     /**
-     * CellFitScale
      * Celula com escalamento horizontal somente se necessário
      * @param   number  $w
      * @param   number  $h
@@ -695,7 +683,6 @@ class Pdf extends Fpdf
     }
 
     /**
-     * CellFitScaleForce
      * Celula com escalamento forçado
      * @param   number  $w
      * @param   number  $h
@@ -720,7 +707,6 @@ class Pdf extends Fpdf
     }
 
     /**
-     * CellFitSpace
      * Celula com espaçamento de caracteres somente se necessário
      * @param   number  $w
      * @param   number  $h
@@ -737,7 +723,6 @@ class Pdf extends Fpdf
     }
     
     /**
-     * CellFitSpaceForce
      * Celula com espaçamento de caracteres forçado
      * @param   number  $w
      * @param   number  $h
@@ -762,7 +747,6 @@ class Pdf extends Fpdf
     }
     
     /**
-     * _MBGetStringLength
      * Patch para trabalhar com textos de duplo byte CJK
      * @param   string $s
      * @return  int
@@ -787,7 +771,6 @@ class Pdf extends Fpdf
     }
 
     /**
-     * DashedLine
      * Desenha uma linha horizontal tracejada com o FPDF
      * @param   number $x Posição horizontal inicial, em mm
      * @param   number $y Posição vertical inicial, em mm
@@ -800,7 +783,7 @@ class Pdf extends Fpdf
     {
         $this->setDrawColor(110);
         $this->setLineWidth($h);
-        $wDash = ($w/$n)/2; // comprimento dos traços
+        $wDash = ($w/$n)/2;
         for ($i=$x; $i<=$x+$w; $i += $wDash+$wDash) {
             for ($j=$i; $j<= ($i+$wDash); $j++) {
                 if ($j <= ($x+$w-1)) {
@@ -811,20 +794,18 @@ class Pdf extends Fpdf
         $this->setDrawColor(0);
     }
 
-    /**
-    * DashedVLine
+   /**
     * Desenha uma linha vertical tracejada com o FPDF
     * @param   number $x      Posição horizontal inicial, em mm
     * @param   number $y      Posição vertical inicial, em mm
-    * @param   number $w      Comprimento da linha, em mm
-    * @param   number $yfinal Espessura da linha, em mm
+    * @param   number $w      Espessura da linha, em mm
+    * @param   number $yfinal posição final
     * @param   number $n      Numero de traços na seção da linha com o comprimento $w
     * @return  none
     */
     public function dashedVLine($x, $y, $w, $yfinal, $n)
     {
         $this->setLineWidth($w);
-        //Organizando valores
         if ($y > $yfinal) {
             $aux = $yfinal;
             $yfinal = $y;
@@ -835,5 +816,295 @@ class Pdf extends Fpdf
             $y += 3;
             $n--;
         }
+    }
+    
+    /**
+     * pGetNumLines
+     * Obtem o numero de linhas usadas pelo texto usando a fonte especifidada
+     * @param  string $text
+     * @param  number $width
+     * @param  array  $aFont
+     * @return number numero de linhas
+     */
+    public function getNumLines($text, $width, $aFont = ['font' => 'Times', 'size' => 8, 'style' => ''])
+    {
+        $text = trim($text);
+        $this->setFont($aFont['font'], $aFont['style'], $aFont['size']);
+        $n = $this->wordWrap($text, $width - 0.2);
+        return $n;
+    }
+    
+    /**
+     * pTextBox
+     * Cria uma caixa de texto com ou sem bordas. Esta função perimite o alinhamento horizontal
+     * ou vertical do texto dentro da caixa.
+     * Atenção : Esta função é dependente de outras classes de FPDF
+     * Ex. $this->pTextBox(2,20,34,8,'Texto',array('fonte'=>$this->fontePadrao,
+     * 'size'=>10,'style='B'),'C','L',FALSE,'http://www.nfephp.org')
+     *
+     * @param  number  $x       Posição horizontal da caixa, canto esquerdo superior
+     * @param  number  $y       Posição vertical da caixa, canto esquerdo superior
+     * @param  number  $w       Largura da caixa
+     * @param  number  $h       Altura da caixa
+     * @param  string  $text    Conteúdo da caixa
+     * @param  array   $aFont   Matriz com as informações para formatação do texto com fonte, tamanho e estilo
+     * @param  string  $vAlign  Alinhamento vertical do texto, T-topo C-centro B-base
+     * @param  string  $hAlign  Alinhamento horizontal do texto, L-esquerda, C-centro, R-direita
+     * @param  boolean $border  TRUE ou 1 desenha a borda, FALSE ou 0 Sem borda
+     * @param  string  $link    Insere um hiperlink
+     * @param  boolean $force   Se for true força a caixa com uma unica linha e para isso atera o tamanho do
+     * fonte até caber no espaço, se falso mantem o tamanho do fonte e usa quantas linhas forem necessárias
+     * e para isso atera o tamanho do fonte até caber no espaço,
+     * se falso mantem o tamanho do fonte e usa quantas linhas forem necessárias
+     * @param  number  $hmax
+     * @param  number  $vOffSet incremento forçado na na posição Y
+     * @return number $height Qual a altura necessária para desenhar esta textBox
+     */
+    public function textBox(
+        $x,
+        $y,
+        $w,
+        $h,
+        $text = '',
+        $aFont = array('font' => 'Times', 'size' => 8, 'style' => ''),
+        $vAlign = 'T',
+        $hAlign = 'L',
+        $border = 1,
+        $link = '',
+        $force = true,
+        $hmax = 0,
+        $vOffSet = 0
+    ) {
+        $oldY = $y;
+        $temObs = false;
+        $resetou = false;
+        if ($w < 0) {
+            return $y;
+        }
+        if (is_object($text)) {
+            $text = '';
+        }
+        if (is_string($text)) {
+            //remover espaços desnecessários
+            $text = trim($text);
+            //converter o charset para o fpdf
+            $text = utf8_decode($text);
+            //decodifica os caracteres html no xml
+            $text = html_entity_decode($text);
+        } else {
+            $text = (string) $text;
+        }
+        //desenhar a borda da caixa
+        if ($border) {
+            $this->roundedRect($x, $y, $w, $h, 0.8, '1234', 'D');
+        }
+        //estabelecer o fonte
+        $this->setFont($aFont['font'], $aFont['style'], $aFont['size']);
+        //calcular o incremento
+        $incY = $this->fontSize; //tamanho da fonte na unidade definida
+        if (!$force) {
+            //verificar se o texto cabe no espaço
+            $n = $this->wordWrap($text, $w);
+        } else {
+            $n = 1;
+        }
+        //calcular a altura do conjunto de texto
+        $altText = $incY * $n;
+        //separar o texto em linhas
+        $lines = explode("\n", $text);
+        //verificar o alinhamento vertical
+        if ($vAlign == 'T') {
+            //alinhado ao topo
+            $y1 = $y + $incY;
+        }
+        if ($vAlign == 'C') {
+            //alinhado ao centro
+            $y1 = $y + $incY + (($h - $altText) / 2);
+        }
+        if ($vAlign == 'B') {
+            //alinhado a base
+            $y1 = ($y + $h) - 0.5;
+        }
+        //para cada linha
+        foreach ($lines as $line) {
+            //verificar o comprimento da frase
+            $texto = trim($line);
+            $comp = $this->getStringWidth($texto);
+            if ($force) {
+                $newSize = $aFont['size'];
+                while ($comp > $w) {
+                    //estabelecer novo fonte
+                    $this->setFont($aFont['font'], $aFont['style'], --$newSize);
+                    $comp = $this->getStringWidth($texto);
+                }
+            }
+            //ajustar ao alinhamento horizontal
+            if ($hAlign == 'L') {
+                $x1 = $x + 0.5;
+            }
+            if ($hAlign == 'C') {
+                $x1 = $x + (($w - $comp) / 2);
+            }
+            if ($hAlign == 'R') {
+                $x1 = $x + $w - ($comp + 0.5);
+            }
+            //escrever o texto
+            if ($vOffSet > 0) {
+                if ($y1 > ($oldY + $vOffSet)) {
+                    if (!$resetou) {
+                        $y1 = $oldY;
+                        $resetou = true;
+                    }
+                    $this->text($x1, $y1, $texto);
+                }
+            } else {
+                $this->text($x1, $y1, $texto);
+            }
+            //incrementar para escrever o proximo
+            $y1 += $incY;
+            if (($hmax > 0) && ($y1 > ($y + ($hmax - 1)))) {
+                $temObs = true;
+                break;
+            }
+        }
+        return ($y1 - $y) - $incY;
+    }
+    
+    /**
+     * Cria uma caixa de texto com ou sem bordas. Esta função permite o alinhamento horizontal
+     * ou vertical do texto dentro da caixa, rotacionando-o em 90 graus, essa função precisa que
+     * a classe PDF contenha a função Rotate($angle,$x,$y);
+     * Atenção : Esta função é dependente de outras classes de FPDF
+     * Ex. $this->__textBox90(2,20,34,8,'Texto',array('fonte'=>$this->fontePadrao,
+     * 'size'=>10,'style='B'),'C','L',FALSE,'http://www.nfephp.org')
+     * @param  number $x Posição horizontal da caixa, canto esquerdo superior
+     * @param  number $y Posição vertical da caixa, canto esquerdo superior
+     * @param  number $w Largura da caixa
+     * @param  number $h Altura da caixa
+     * @param  string $text Conteúdo da caixa
+     * @param  array $aFont Matriz com as informações para formatação do texto com fonte, tamanho e estilo
+     * @param  string $vAlign Alinhamento vertical do texto, T-topo C-centro B-base
+     * @param  string $hAlign Alinhamento horizontal do texto, L-esquerda, C-centro, R-direita
+     * @param  boolean $border TRUE ou 1 desenha a borda, FALSE ou 0 Sem borda
+     * @param  string $link Insere um hiperlink
+     * @param  boolean $force Se for true força a caixa com uma unica linha e para isso atera o tamanho do
+     *  fonte até caber no espaço, se falso mantem o tamanho do fonte e usa quantas linhas forem necessárias
+     *  linha e para isso atera o tamanho do fonte até caber no espaço,
+     *  se falso mantem o tamanho do fonte e usa quantas linhas forem necessárias
+     * @param  number  $hmax
+     * @param  number  $vOffSet incremento forçado na na posição Y
+     * @return number $height Qual a altura necessária para desenhar esta textBox
+     */
+    public function textBox90(
+        $x,
+        $y,
+        $w,
+        $h,
+        $text = '',
+        $aFont = array('font' => 'Times', 'size' => 8, 'style' => ''),
+        $vAlign = 'T',
+        $hAlign = 'L',
+        $border = 1,
+        $link = '',
+        $force = true,
+        $hmax = 0,
+        $vOffSet = 0
+    ) {
+        $this->rotate(90, $x, $y);
+        $oldY = $y;
+        $temObs = false;
+        $resetou = false;
+        if ($w < 0) {
+            return $y;
+        }
+        if (is_object($text)) {
+            $text = '';
+        }
+        if (is_string($text)) {
+            //remover espaços desnecessários
+            $text = trim($text);
+            //converter o charset para o fpdf
+            $text = utf8_decode($text);
+            //decodifica os caracteres html no xml
+            $text = html_entity_decode($text);
+        } else {
+            $text = (string) $text;
+        }
+        //desenhar a borda da caixa
+        if ($border) {
+            $this->roundedRect($x, $y, $w, $h, 0.8, '1234', 'D');
+        }
+        //estabelecer o fonte
+        $this->setFont($aFont['font'], $aFont['style'], $aFont['size']);
+        //calcular o incremento
+        $incY = $this->fontSize; //tamanho da fonte na unidade definida
+        if (!$force) {
+            //verificar se o texto cabe no espaço
+            $n = $this->wordWrap($text, $w);
+        } else {
+            $n = 1;
+        }
+        //calcular a altura do conjunto de texto
+        $altText = $incY * $n;
+        //separar o texto em linhas
+        $lines = explode("\n", $text);
+        //verificar o alinhamento vertical
+        if ($vAlign == 'T') {
+            //alinhado ao topo
+            $y1 = $y + $incY;
+        }
+        if ($vAlign == 'C') {
+            //alinhado ao centro
+            $y1 = $y + $incY + (($h - $altText) / 2);
+        }
+        if ($vAlign == 'B') {
+            //alinhado a base
+            $y1 = ($y + $h) - 0.5;
+        }
+        //para cada linha
+        foreach ($lines as $line) {
+            //verificar o comprimento da frase
+            $texto = trim($line);
+            $comp = $this->getStringWidth($texto);
+            if ($force) {
+                $newSize = $aFont['size'];
+                while ($comp > $w) {
+                    //estabelecer novo fonte
+                    $this->setFont($aFont['font'], $aFont['style'], --$newSize);
+                    $comp = $this->getStringWidth($texto);
+                }
+            }
+            //ajustar ao alinhamento horizontal
+            if ($hAlign == 'L') {
+                $x1 = $x + 0.5;
+            }
+            if ($hAlign == 'C') {
+                $x1 = $x + (($w - $comp) / 2);
+            }
+            if ($hAlign == 'R') {
+                $x1 = $x + $w - ($comp + 0.5);
+            }
+            //escrever o texto
+            if ($vOffSet > 0) {
+                if ($y1 > ($oldY + $vOffSet)) {
+                    if (!$resetou) {
+                        $y1 = $oldY;
+                        $resetou = true;
+                    }
+                    $this->text($x1, $y1, $texto);
+                }
+            } else {
+                $this->text($x1, $y1, $texto);
+            }
+            //incrementar para escrever o proximo
+            $y1 += $incY;
+            if (($hmax > 0) && ($y1 > ($y + ($hmax - 1)))) {
+                $temObs = true;
+                break;
+            }
+        }
+        //Zerando rotação
+        $this->rotate(0, $x, $y);
+        return ($y1 - $y) - $incY;
     }
 }
