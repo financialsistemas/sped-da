@@ -1646,7 +1646,7 @@ class Dacte extends Common
         //01 = KG (QUILOS)
         $qCarga = 0;
         foreach ($this->infQ as $infQ) {
-            if ($this->getTagValue($infQ, "cUnid") == '01') {
+            if (in_array($this->getTagValue($infQ, "cUnid"), array('01', '02'))) {
                 $qCarga += (float)$this->getTagValue($infQ, "qCarga");
             }
         }
@@ -2248,7 +2248,7 @@ class Dacte extends Common
         //$r = $this->cabecalho(1, 1, '1', $this->totPag);
         $contador = 0;
         while ($contador < count($this->arrayNFe)) {
-            if ($contador == 15) {
+            if ($contador == 16) {
                 break;
             }
             $tp = 'NF-e';
