@@ -1202,7 +1202,7 @@ class Danfe extends Common
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'B', 'C', 0, '');
         //####################################################################################
         //INSCRIÇÃO ESTADUAL
-        $w = round($maxW * 0.333, 0);
+        $w = round($maxW * 0.250, 0);
         $y += $h;
         $oldY += $h;
         $x = $oldX;
@@ -1210,6 +1210,14 @@ class Danfe extends Common
         $aFont = ['font'=>$this->fontePadrao, 'size'=>6, 'style'=>''];
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'T', 'L', 1, '');
         $texto = $this->getTagValue($this->emit, "IE");
+        $aFont = ['font'=>$this->fontePadrao, 'size'=>10, 'style'=>'B'];
+        $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'B', 'C', 0, '');
+        //INSCRIÇÃO MUNICIPAL
+        $x += $w;
+        $texto = 'INSCRIÇÃO MUNICIPAL';
+        $aFont = ['font'=>$this->fontePadrao, 'size'=>6, 'style'=>''];
+        $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'T', 'L', 1, '');
+        $texto = $this->getTagValue($this->emit, "IM");
         $aFont = ['font'=>$this->fontePadrao, 'size'=>10, 'style'=>'B'];
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'B', 'C', 0, '');
         //INSCRIÇÃO ESTADUAL DO SUBST. TRIBUT.
@@ -1224,8 +1232,8 @@ class Danfe extends Common
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'B', 'C', 0, '');
         //CNPJ
         $x += $w;
-        $w = ($maxW-(2*$w));
-        $texto = 'CNPJ / CPF';
+        $w = ($maxW-(3 * $w));
+        $texto = 'CNPJ';
         $aFont = ['font'=>$this->fontePadrao, 'size'=>6, 'style'=>''];
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'T', 'L', 1, '');
         //Pegando valor do CPF/CNPJ
