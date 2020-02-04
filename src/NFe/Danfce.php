@@ -71,10 +71,7 @@ class Danfce extends Common
         $docXML = '',
         $sPathLogo = '',
         $mododebug = 0,
-        // habilita os erros do sistema
-        $idToken = '',
-        $emitToken = '',
-        $urlQR = ''
+        $fonteDANFE = ''
     ) {
         if (is_numeric($mododebug)) {
             $this->debugmode = $mododebug;
