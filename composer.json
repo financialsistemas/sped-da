@@ -20,7 +20,7 @@
     "require": {
         "php" : ">= 7.0",
         "tecnickcom/tc-lib-barcode": "^1.15",
-        "nfephp-org/sped-common": "^5.0"
+        "nfephp-org/sped-common": "dev-master"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.18",
@@ -29,6 +29,12 @@
         "scrutinizer/ocular": "^1.7",
         "sebastian/phpcpd": "^3.0"
     },
+    "repositories": [
+        {
+            "url": "https://github.com/financialsistemas/sped-common.git",
+            "type": "vcs"
+        }
+    ],
     "suggest": {
         "nfephp-org/posprint": "^0.1"
     },
