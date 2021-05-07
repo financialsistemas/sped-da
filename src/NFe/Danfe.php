@@ -334,7 +334,7 @@ class Danfe extends DaCommon
     {
         $this->qComCasasDec = $qComCasasDec;
     }
-    
+
     /**
      * Atribui se a unidade tributável deve sempre ocultada nos itens.
      * @param bool $ocultarUnidadeTributavel
@@ -417,7 +417,6 @@ class Danfe extends DaCommon
                 $numlinhasdados         = $this->pdf->getNumLines($this->textoAdic, $this->wAdic, $fontProduto) + 3;
                 $this->textadicfontsize = $this->pdf->fontSize;
                 $hdadosadic             = ceil($numlinhasdados * $this->textadicfontsize);
-                echo $hdadosadic;
                 if ($hdadosadic <= 90) {
                     $hdadosadic = ceil($hdadosadic);
                     break;
@@ -2686,7 +2685,7 @@ class Danfe extends DaCommon
                 $datafab = " Fab: " . $dFab;
                 $dVal = $this->getTagDate($rastro->item($i), 'dVal');
                 $dataval = " Val: " . $dVal;
-                
+
                 $loteTxt .= $this->getTagValue($rastro->item($i), 'nLote', ' Lote: ');
                 $loteTxt .= $this->getTagValue($rastro->item($i), 'qLote', ' Quant: ');
                 $loteTxt .= $datafab; //$this->getTagDate($rastro->item($i), 'dFab', ' Fab: ');
@@ -3402,10 +3401,6 @@ class Danfe extends DaCommon
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'T', 'L', 1, '');
         //o texto com os dados adicionais foi obtido na função montaDANFE
         //e carregado em uma propriedade privada da classe
-        //$this->wAdic com a largura do campo
-        //$this->textoAdic com o texto completo do campo
-        //echo str_replace("\n", "<br>",$this->textoAdic);
-        //die;
         $y     += 1;
         $aFont = ['font' => $this->fontePadrao, 'size' => $this->textadicfontsize * $this->pdf->k, 'style' => ''];
         //$aFont = ['font'=>$this->fontePadrao, 'size'=> 5, 'style'=>''];
