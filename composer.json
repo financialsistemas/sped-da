@@ -33,6 +33,10 @@
         {
             "url": "https://github.com/financialsistemas/sped-common.git",
             "type": "vcs"
+        },
+        {
+            "url": "https://github.com/financialsistemas/tc-lib-barcode.git",
+            "type": "vcs"
         }
     ],
     "suggest": {
