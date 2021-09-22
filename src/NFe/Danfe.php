@@ -353,16 +353,17 @@ class Danfe extends DaCommon
             'size'  => 8,
             'style' => ''
         ];
-        $k                      = $this->pdf->k;
+        $k = $this->pdf->k;
         $this->textadicfontsize = $fontProduto['size'] / $k;
-        $this->textoAdic        .= $this->geraInformacoesDasNotasReferenciadas();
+        $this->textoAdic .= $this->geraInformacoesDasNotasReferenciadas();
         if (isset($this->infAdic)) {
             $i = 0;
             if ($this->textoAdic != '') {
                 $this->textoAdic .= ". \n";
             }
             $this->textoAdic .= ! empty($this->getTagValue($this->infAdic, "infCpl"))
-                ? 'Inf. Contribuinte: ' . $this->anfaveaDANFE($this->getTagValue($this->infAdic, "infCpl"))
+                //? 'Inf. Contribuinte: ' . $this->anfaveaDANFE($this->getTagValue($this->infAdic, "infCpl"))
+                ? 'Inf. Contribuinte: ' . $this->getTagValue($this->infAdic, "infCpl")
                 : '';
             $infPedido       = $this->geraInformacoesDaTagCompra();
             if ($infPedido != "") {
@@ -390,10 +391,10 @@ class Danfe extends DaCommon
         //verificar se a informação sobre o valor aproximado dos tributos
         //já se encontra no campo de informações adicionais
         if ($this->exibirValorTributos) {
-            $flagVTT  = strpos(strtolower(trim($this->textoAdic)), 'valor');
-            $flagVTT  = $flagVTT || strpos(strtolower(trim($this->textoAdic)), 'vl');
-            $flagVTT  = $flagVTT && strpos(strtolower(trim($this->textoAdic)), 'aprox');
-            $flagVTT  = $flagVTT && (strpos(strtolower(trim($this->textoAdic)), 'trib') ||
+            $flagVTT = strpos(strtolower(trim($this->textoAdic)), 'valor');
+            $flagVTT = $flagVTT || strpos(strtolower(trim($this->textoAdic)), 'vl');
+            $flagVTT = $flagVTT && strpos(strtolower(trim($this->textoAdic)), 'aprox');
+            $flagVTT = $flagVTT && (strpos(strtolower(trim($this->textoAdic)), 'trib') ||
                     strpos(strtolower(trim($this->textoAdic)), 'imp'));
             $vTotTrib = $this->getTagValue($this->ICMSTot, 'vTotTrib');
             if ($vTotTrib != '' && ! $flagVTT) {
@@ -402,10 +403,10 @@ class Danfe extends DaCommon
             }
         }
         //fim da alteração NT 2013.003 Lei da Transparência
-        $this->textoAdic        = str_replace(";", "\n", $this->textoAdic);
-        $numlinhasdados         = $this->pdf->getNumLines($this->textoAdic, $this->wAdic, $fontProduto) + 1.5;
+        $this->textoAdic = str_replace(";", "\n", $this->textoAdic);
+        $numlinhasdados = $this->pdf->getNumLines($this->textoAdic, $this->wAdic, $fontProduto) + 1.5;
         $this->textadicfontsize = $this->pdf->fontSize;
-        $hdadosadic             = ceil($numlinhasdados * ($this->textadicfontsize));
+        $hdadosadic = ceil($numlinhasdados * ($this->textadicfontsize));
         if ($hdadosadic > 70) {
             for ($f = 8; $f > 3; $f --) {
                 $this->pdf->setFont($this->fontePadrao, '', $f);
@@ -1289,7 +1290,7 @@ class Danfe extends DaCommon
             $y = $this->hPrint/2 - $alttot/2;
             $h = 15;
             $w = $maxW - (2 * $x);
-            $this->pdf->settextcolor(90, 90, 90);
+            $this->pdf->settextcolor(170, 170, 170);
 
             foreach ($resp['message'] as $msg) {
                 $aFont = ['font' => $this->fontePadrao, 'size' => 48, 'style' => 'B'];
@@ -2070,12 +2071,12 @@ class Danfe extends DaCommon
             $dups    = "";
             $dupcont = 0;
             if ($this->orientacao == 'P') {
-                $w = round($this->wPrint / 7.018, 0) - 1;
+                $w = round($this->wPrint / 3.968, 0) - 1;
             } else {
                 $w = 28;
             }
             if ($this->orientacao == 'P') {
-                $maxDupCont = 6;
+                $maxDupCont = 3;
             } else {
                 $maxDupCont = 8;
             }
@@ -2094,8 +2095,8 @@ class Danfe extends DaCommon
                 '15' => 'Boleto',
                 '16' => 'Depósito Bancário',
                 '17' => 'Pagamento Instantâneo (PIX)',
-                '18' => 'Transferência bancária, Carteira Digital',
-                '19' => 'Programa de fidelidade, Cashback, Crédito Virtual',
+                '18' => 'Transferência Bancária, Carteira Digit.',
+                '19' => 'Fidelidade, Cashback, Crédito Virtual',
                 '90' => 'Sem pagamento',
                 '99' => 'Outros'
             ];
@@ -2666,7 +2667,8 @@ class Danfe extends DaCommon
         }
         $infAdProd = ! empty($itemProd->getElementsByTagName('infAdProd')->item(0)->nodeValue)
             ? substr(
-                $this->anfaveaDANFE($itemProd->getElementsByTagName('infAdProd')->item(0)->nodeValue),
+                //$this->anfaveaDANFE($itemProd->getElementsByTagName('infAdProd')->item(0)->nodeValue),
+                $itemProd->getElementsByTagName('infAdProd')->item(0)->nodeValue,
                 0,
                 500
             )
@@ -2953,7 +2955,7 @@ class Danfe extends DaCommon
                     $origem = $this->getTagValue($ICMS, "orig");
                     $cst    = $this->getTagValue($ICMS, "CST");
                     $csosn  = $this->getTagValue($ICMS, "CSOSN");
-                    $texto  = $origem . $cst . $csosn;
+                    $texto  = $origem . "/" . $cst . $csosn;
                     $this->pdf->textBox($x, $y, $w4, $h, $texto, $aFont, 'T', 'C', 0, '');
                 }
                 //CFOP
@@ -3091,7 +3093,7 @@ class Danfe extends DaCommon
                 // Tag somente é gerada para veiculo 0k, e só é permitido um veiculo por NF-e por conta do detran
                 // Verifica se a Tag existe
                 if (! empty($veicProd)) {
-                    $this->dadosItenVeiculoDANFE($oldX, $y, $nInicio, $h, $prod);
+                    $this->dadosItenVeiculoDANFE($oldX + 3, $y + 40, $nInicio, 3, $prod);
                 }
 
 
