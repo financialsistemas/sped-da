@@ -900,16 +900,10 @@ class Danfe extends DaCommon
             }
             $retEvento = $this->nfeProc->getElementsByTagName('retEvento')->item(0);
             $cStat = $this->getTagValue($this->nfeProc, "cStat");
-            if ($cStat == '110' ||
-                $cStat == '301' ||
-                $cStat == '302'
-            ) {
+            if (in_array($cStat, ['110','205','301','302','303'])) {
                 $resp['status'] = false;
                 $resp['message'][] = "NFe DENEGADA";
-            } elseif ($cStat == '101'
-                || $cStat == '151'
-                || $cStat == '135'
-                || $cStat == '155'
+            } elseif (in_array($cStat, ['101','151','135','155'])
                 || $this->cancelFlag === true
             ) {
                 $resp['status'] = false;
@@ -2929,8 +2923,7 @@ class Danfe extends DaCommon
                     }
                 }
                 $y_linha = $y + $h;
-                // linha entre itens
-                $this->pdf->dashedHLine($oldX, $y_linha, $w, 0.1, 120);
+                
                 //corrige o x
                 $x = $oldX;
                 //codigo do produto
@@ -3093,7 +3086,14 @@ class Danfe extends DaCommon
                 // Tag somente é gerada para veiculo 0k, e só é permitido um veiculo por NF-e por conta do detran
                 // Verifica se a Tag existe
                 if (! empty($veicProd)) {
-                    $this->dadosItenVeiculoDANFE($oldX + 3, $y + 40, $nInicio, 3, $prod);
+                    $y += $h - 10;
+                    $this->dadosItenVeiculoDANFE($oldX + 3, $y, $nInicio, 3, $prod);
+                    // linha entre itens
+                    $this->pdf->dashedHLine($oldX, $y+23, $w, 0.1, 120);
+                    $y -= 38;
+                } else {
+                    // linha entre itens
+                    $this->pdf->dashedHLine($oldX, $y, $w, 0.1, 120);
                 }
 
 
