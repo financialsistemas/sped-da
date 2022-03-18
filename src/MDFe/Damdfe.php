@@ -56,8 +56,7 @@ class Damdfe extends DaCommon
      */
     public function __construct(
         $xml
-    )
-    {
+    ) {
         $this->loadDoc($xml);
     }
 
@@ -163,8 +162,7 @@ class Damdfe extends DaCommon
 
     protected function monta(
         $logo = ''
-    )
-    {
+    ) {
         $this->pdf = '';
         if (!empty($logo)) {
             $this->logomarca = $this->adjustImage($logo);
@@ -1112,7 +1110,17 @@ class Damdfe extends DaCommon
                 }
             }
             if ($this->aquav->getElementsByTagName('infTermDescarreg')->item(0) != null) {
-                $this->pdf->textBox(($x1 + ($x2 / 2)), $initial + 6, ($x2 / 2), $initialB - $y, '', $this->baseFont, 'T', 'L', 0);
+                $this->pdf->textBox(
+                    ($x1 + ($x2 / 2)),
+                    $initial + 6,
+                    ($x2 / 2),
+                    $initialB - $y,
+                    '',
+                    $this->baseFont,
+                    'T',
+                    'L',
+                    0
+                );
             }
 
             $altura = $initialA > $initialB ? $initialA : $initialB;
@@ -1212,7 +1220,17 @@ class Damdfe extends DaCommon
                 }
             }
             if ($this->aquav->getElementsByTagName('infUnidTranspVazia')->item(0) != null) {
-                $this->pdf->textBox(($x1 + ($x2 / 2)), $initial + 6, ($x2 / 2), $initialB - $y, '', $this->baseFont, 'T', 'L', 0);
+                $this->pdf->textBox(
+                    ($x1 + ($x2 / 2)),
+                    $initial + 6,
+                    ($x2 / 2),
+                    $initialB - $y,
+                    '',
+                    $this->baseFont,
+                    'T',
+                    'L',
+                    0
+                );
             }
 
             $altura = $initialA > $initialB ? $initialA : $initialB;
