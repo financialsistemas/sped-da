@@ -405,7 +405,7 @@ class Danfe extends DaCommon
         }
         //fim da alteração NT 2013.003 Lei da Transparência
         $this->textoAdic = str_replace(";", "\n", $this->textoAdic);
-        $numlinhasdados = $this->pdf->getNumLines($this->textoAdic, $this->wAdic, $fontProduto) + 1.5;
+        $numlinhasdados = $this->pdf->getNumLines($this->textoAdic, $this->wAdic, $fontProduto) + 2;
         $this->textadicfontsize = $this->pdf->fontSize;
         $hdadosadic = ceil($numlinhasdados * ($this->textadicfontsize));
         if ($hdadosadic > 70) {
@@ -3093,14 +3093,16 @@ class Danfe extends DaCommon
                 $yTrib += $y;
                 $diffH = $hmax - $hUsado;
 
-                if ($pag != $totpag) {
-                    if (1 > $diffH && $i < $totItens) {
+                if (1 > $diffH && $i < $totItens) {
+                    if ($pag == $totpag) {
+                        $totpag++;
+                    }
                         //ultrapassa a capacidade para uma única página
                         //o restante dos dados serão usados nas proximas paginas
                         $nInicio = $i;
                         break;
-                    }
                 }
+                
                 $y_linha = $y + $h;
 
                 //corrige o x
