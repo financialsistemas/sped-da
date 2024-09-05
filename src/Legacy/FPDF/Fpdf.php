@@ -115,13 +115,13 @@ class Fpdf
             'zapfdingbats'=>'ZapfDingbats'
         ];
         //Scale factor
-        if ($unit == 'pt') {
+        if ($unit === 'pt') {
             $this->k = 1;
-        } elseif ($unit == 'mm') {
+        } elseif ($unit === 'mm') {
             $this->k = 72/25.4;
-        } elseif ($unit == 'cm') {
+        } elseif ($unit === 'cm') {
             $this->k = 72/2.54;
-        } elseif ($unit == 'in') {
+        } elseif ($unit === 'in') {
             $this->k = 72;
         } else {
             $this->error('Incorrect unit: '.$unit);
@@ -215,12 +215,12 @@ class Fpdf
     public function setDisplayMode($zoom, $layout = 'continuous')
     {
         //Set display mode in viewer
-        if ($zoom=='fullpage' || $zoom=='fullwidth' || $zoom=='real' || $zoom=='default' || !is_string($zoom)) {
+        if ($zoom==='fullpage' || $zoom==='fullwidth' || $zoom==='real' || $zoom==='default' || !is_string($zoom)) {
             $this->zoomMode = $zoom;
         } else {
             $this->error('Incorrect zoom display mode: '.$zoom);
         }
-        if ($layout=='single' || $layout=='continuous' || $layout=='two' || $layout=='default') {
+        if ($layout==='single' || $layout==='continuous' || $layout==='two' || $layout==='default') {
             $this->layoutMode = $layout;
         } else {
             $this->error('Incorrect layout display mode: '.$layout);
@@ -352,11 +352,11 @@ class Fpdf
         }
         //Set colors
         $this->drawColor = $dc;
-        if ($dc!='0 G') {
+        if ($dc!=='0 G') {
             $this->out($dc);
         }
         $this->fillColor = $fc;
-        if ($fc != '0 g') {
+        if ($fc !== '0 g') {
             $this->out($fc);
         }
         $this->textColor = $tc;

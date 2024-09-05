@@ -77,6 +77,18 @@ class DacteOS extends DaCommon
     protected $formatoChave = "#### #### #### #### #### #### #### #### #### #### ####";
     protected $margemInterna = 0;
 
+    protected $infOutros;
+    protected $ICMSSN;
+    protected $toma;
+    protected $enderToma;
+    protected $xSeg;
+    protected $nApol;
+    protected $respSeg;
+    protected $protCTe;
+    protected $qrCodMDFe;
+    protected $cteProc;
+    protected $wCanhoto;
+
     /**
      * __construct
      *
@@ -1323,7 +1335,10 @@ class DacteOS extends DaCommon
 
         $x = $oldX;
         $y = $y + 4;
-        $texto = number_format($this->getTagValue($this->infQ->item(0), "qCarga"), 3, ",", ".");
+        $texto = $this->getTagValue($this->infQ->item(0), "qCarga");
+        if ($this->infQ->item(0) != null) {
+            $texto = number_format($texto, 3, ",", ".");
+        }
         $aFont = $this->formatNegrito;
         $this->pdf->textBox($x, $y, $w * 0.26, $h, $texto, $aFont, 'T', 'L', 0, '');
         $x += $w * 0.26;

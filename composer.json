@@ -30,7 +30,10 @@
     ],
     "require": {
         "php": ">= 7.4",
-        "tecnickcom/tc-lib-barcode": "dev-main",
+        "ext-dom": "*",
+        "ext-gd": "*",
+        "ext-mbstring": "*",
+        "tecnickcom/tc-lib-barcode": "^1",
         "nfephp-org/sped-common": "^5.1.0"
     },
     "require-dev": {
