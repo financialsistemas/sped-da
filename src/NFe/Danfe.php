@@ -229,11 +229,6 @@ class Danfe extends DaCommon
      *
      * @var \DOMElement
      */
-    protected $detPag;
-    /**
-     * Node
-     * @var DOMNode
-     */
     protected $ICMSTot;
     /**
      * Node
